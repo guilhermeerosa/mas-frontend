@@ -1,8 +1,13 @@
+import {BrowserRouter as Router} from 'react-router-dom'
+import GlobalStyle from './styles/global';
+import Routes from './routes';
+
 function App() {
   return (
-    <div className="App">
-      <h1>Frontend My Activies Space </h1>
-    </div>
+    <Router>
+      <Routes />
+      <GlobalStyle />
+    </Router>
   );
 }
 
