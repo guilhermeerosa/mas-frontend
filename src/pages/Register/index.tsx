@@ -1,8 +1,9 @@
 import { FiMail, FiLock, FiUser, FiArrowLeft } from 'react-icons/fi'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { Button } from '../../components/Button'
 import { Container, Content, FormContainer, InputContainer, Background, Error } from './styles'
+import api from '../../services/api'
 
 interface FormData {
     name: string;
@@ -14,7 +15,9 @@ export function Register() {
 
     const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
 
-    const onSubmit = handleSubmit(data => alert(JSON.stringify(data)));
+    const history = useHistory();
+
+    const onSubmit = handleSubmit(data => api.post('/user/new', data).then(() => history.push('/')));
 
     return (
         <Container>
@@ -27,16 +30,19 @@ export function Register() {
                             <input type="text" placeholder="Nome" {...register("name", { required: true })}/>
                         </InputContainer>
                         {errors.name && <Error>O preenchimento do campo é obrigatório</Error>}
+                       
                         <InputContainer>
                             <FiMail size={40} />
                             <input type="email" placeholder="E-mail" {...register("email", { required: true })}/>
                         </InputContainer>
                         {errors.email && <Error>O preenchimento do campo é obrigatório</Error>}
+                       
                         <InputContainer>
                             <FiLock size={40} />
                             <input type="password" placeholder="Senha" {...register("password", { required: true })}/>
                         </InputContainer>
                         {errors.password && <Error>O preenchimento do campo é obrigatório</Error>}
+                       
                         <Button type="submit">Cadastrar</Button>
                     </form>
                     <Link to="/">
