@@ -2,6 +2,7 @@ import Modal from 'react-modal'
 import { useForm } from 'react-hook-form'
 import { FiX } from 'react-icons/fi'
 import { Container, Error } from '../NewCourseUnitModal/styles'
+import api from '../../services/api'
 
 interface NewCourseUnitModalProps {
     isOpen: boolean;
@@ -17,7 +18,7 @@ export function NewCourseUnitModal({ isOpen, onRequestClose }: NewCourseUnitModa
 
     const { register, handleSubmit, formState: { errors } } = useForm<NewCourseUnitModalData>();
 
-    const onSubmit = handleSubmit(data => alert(JSON.stringify(data)));
+    const onSubmit = handleSubmit(data => api.post('/course-unit/new', data).then(onRequestClose));
 
     return (
         <Modal
